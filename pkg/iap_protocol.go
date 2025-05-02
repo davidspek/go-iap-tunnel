@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"math"
 
 	"github.com/coder/websocket"
 )
@@ -131,7 +132,7 @@ func (p *IAPTunnelProtocol) ExtractSubprotocolData(data []byte) ([]byte, []byte,
 }
 
 func (p *IAPTunnelProtocol) CreateDataFrame(data []byte) ([]byte, error) {
-	if len(data) > int(^uint32(0)) { // or use math.MaxUint32
+	if len(data) > math.MaxUint32 { // or use math.MaxUint32
 		return nil, fmt.Errorf("payload too large for protocol frame: %d bytes", len(data))
 	}
 	frame := make([]byte, SUBPROTOCOL_HEADER_LEN+len(data))

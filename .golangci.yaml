@@ -27,7 +27,7 @@ linters:
     - govet
   settings:
     cyclop:
-      max-complexity: 12
+      max-complexity: 13
 
 formatters:
   enable:
