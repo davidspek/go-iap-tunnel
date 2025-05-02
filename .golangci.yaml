@@ -1,0 +1,41 @@
+# Visit https://golangci-lint.run/ for usage documentation
+# and information on other useful linters
+version: "2"
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+linters:
+  default: none
+  enable:
+    - durationcheck
+    - errcheck
+    - cyclop
+    - gosec
+    - copyloopvar
+    - forcetypeassert
+    - godot
+    - ineffassign
+    - makezero
+    - misspell
+    - nilerr
+    - predeclared
+    - staticcheck
+    - unconvert
+    - unparam
+    - unused
+    - govet
+  settings:
+    cyclop:
+      max-complexity: 12
+
+formatters:
+  enable:
+  - gci
+  - gofmt
+  - gofumpt
+  - goimports
+  - golines
+  settings:
+    golines:
+      max-len: 120
