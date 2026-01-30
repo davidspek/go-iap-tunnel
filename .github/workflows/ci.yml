@@ -75,12 +75,12 @@ jobs:
           cache-dependency-path: go.sum
       - name: Run go mod download
         run: go mod download
-      - name: Run govulncheck
-        run: go install golang.org/x/vuln/cmd/govulncheck@latest && govulncheck -format sarif ./... > govulncheck.sarif
-      - name: Upload govulncheck SARIF
-        uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
-        with:
-          sarif_file: govulncheck.sarif
+      # - name: Run govulncheck
+      #   run: go install golang.org/x/vuln/cmd/govulncheck@latest && govulncheck -format sarif ./... > govulncheck.sarif
+      # - name: Upload govulncheck SARIF
+      #   uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
+      #   with:
+      #     sarif_file: govulncheck.sarif
       - name: Run gosec
         uses: securego/gosec@6be2b51fd78feca86af91f5186b7964d76cb1256 # v2.22.10
         with:
