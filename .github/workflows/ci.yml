@@ -79,10 +79,10 @@ jobs:
         id: govulncheck
         continue-on-error: true
         run: go install golang.org/x/vuln/cmd/govulncheck@latest && govulncheck -format sarif ./... > govulncheck.sarif
-      # - name: Upload govulncheck SARIF
-      #   uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
-      #   with:
-      #     sarif_file: govulncheck.sarif
+      - name: Upload govulncheck SARIF
+        uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
+        with:
+          sarif_file: govulncheck.sarif
       - name: Run gosec
         uses: securego/gosec@424fc4cd9c82ea0fd6bee9cd49c2db2c3cc0c93f # v2.22.11
         id: gosec
