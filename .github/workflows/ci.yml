@@ -83,12 +83,14 @@ jobs:
         uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
         with:
           sarif_file: govulncheck.sarif
+      # - name: Run gosec # TODO: enable once gosec releases a version with go 1.25.6 support
+      #   uses: securego/gosec@424fc4cd9c82ea0fd6bee9cd49c2db2c3cc0c93f # v2.22.11
+      #   id: gosec
+      #   with:
+      #     args: '-no-fail -fmt sarif -out gosec.sarif ./...'
       - name: Run gosec
-        uses: securego/gosec@424fc4cd9c82ea0fd6bee9cd49c2db2c3cc0c93f # v2.22.11
         id: gosec
-        continue-on-error: true
-        with:
-          args: '-fmt sarif -out gosec.sarif ./...'
+        run: go install github.com/securego/gosec/v2/cmd/gosec@latest && gosec -no-fail -fmt sarif -out gosec.sarif ./...
       - name: Upload gosec SARIF
         uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
         with:
