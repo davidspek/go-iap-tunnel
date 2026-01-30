@@ -1,6 +1,6 @@
 module github.com/davidspek/go-iap-tunnel
 
-go 1.25.4
+go 1.25.6
 
 require (
 	github.com/coder/websocket v1.8.13
