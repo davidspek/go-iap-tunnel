@@ -108,7 +108,31 @@ func (t *TunnelAdapter) Read(p []byte) (int, error) {
 }
 
 func (t *TunnelAdapter) Write(p []byte) (int, error) {
-	return t.protocol.SendDataFrame(t.conn, p)
+	t.mu.Lock()
+	conn := t.conn
+	t.mu.Unlock()
+
+	if len(p) == 0 {
+		return 0, nil
+	}
+
+	totalWritten := 0
+	for len(p) > 0 {
+		chunkSize := SUBPROTOCOL_MAX_DATA_FRAME_SIZE
+		if len(p) < chunkSize {
+			chunkSize = len(p)
+		}
+
+		n, err := t.protocol.SendDataFrame(conn, p[:chunkSize])
+		totalWritten += n
+		if err != nil {
+			return totalWritten, err
+		}
+
+		p = p[chunkSize:]
+	}
+
+	return totalWritten, nil
 }
 
 func (t *TunnelAdapter) Close() error {
