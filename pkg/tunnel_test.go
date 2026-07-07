@@ -141,6 +141,33 @@ func TestTunnelAdapter_Write(t *testing.T) {
 	assert.Equal(t, len(data), n)
 }
 
+func TestTunnelAdapter_WriteLargePayloadIsChunked(t *testing.T) {
+	server := startEchoWebSocketServer(t)
+	defer server.Close()
+
+	wsURL := "ws" + server.URL[len("http"):]
+	conn, _, err := websocket.Dial(context.Background(), wsURL, nil)
+	require.NoError(t, err, "websocket.Dial failed")
+	defer func() {
+		if err := conn.Close(websocket.StatusNormalClosure, "bye"); err != nil {
+			t.Errorf("failed to close websocket: %v", err)
+		}
+	}()
+
+	adapter := &TunnelAdapter{
+		conn:     conn,
+		protocol: NewIAPTunnelProtocol(),
+		target:   TunnelTarget{},
+		inbound:  make(chan []byte, 1),
+		closed:   make(chan struct{}),
+	}
+
+	data := bytes.Repeat([]byte("x"), SUBPROTOCOL_MAX_DATA_FRAME_SIZE*2+123)
+	n, err := adapter.Write(data)
+	require.NoError(t, err)
+	assert.Equal(t, len(data), n)
+}
+
 func TestTunnelAdapter_Close(t *testing.T) {
 	server := startEchoWebSocketServer(t)
 	defer server.Close()
