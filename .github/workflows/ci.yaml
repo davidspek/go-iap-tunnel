@@ -51,7 +51,7 @@ jobs:
         run: |
           go run github.com/ctrf-io/go-ctrf-json-reporter/cmd/go-ctrf-json-reporter@latest -output ctrf-report.json < test-results.json
       - name: Publish Test Report
-        uses: ctrf-io/github-test-reporter@024bc4b64d997ca9da86833c6b9548c55c620e40 # v1.0.26
+        uses: ctrf-io/github-test-reporter@7974087018bf4857cf5a9d78723e152038c3fa31 # v1.3.0
         with:
           report-path: ctrf-report.json
           group-by: suite
