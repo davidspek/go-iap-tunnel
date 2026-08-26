@@ -80,7 +80,7 @@ jobs:
         continue-on-error: true
         run: go install golang.org/x/vuln/cmd/govulncheck@latest && govulncheck -format sarif ./... > govulncheck.sarif
       - name: Upload govulncheck SARIF
-        uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         with:
           sarif_file: govulncheck.sarif
       # - name: Run gosec # TODO: enable once gosec releases a version with go 1.25.6 support
@@ -92,7 +92,7 @@ jobs:
         id: gosec
         run: go install github.com/securego/gosec/v2/cmd/gosec@latest && gosec -no-fail -fmt sarif -out gosec.sarif ./...
       - name: Upload gosec SARIF
-        uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         with:
           sarif_file: gosec.sarif
       - name: Fail if govulncheck or gosec found issues
@@ -116,6 +116,6 @@ jobs:
           severity: CRITICAL,HIGH,MEDIUM
           ignore-unfixed: true
       - name: Upload Trivy SARIF
-        uses: github/codeql-action/upload-sarif@b20883b0cd1f46c72ae0ba6d1090936928f9fa30 # v4.32.0
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v4.37.9
         with:
           sarif_file: trivy-results.sarif
